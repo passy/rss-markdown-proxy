@@ -21,20 +21,8 @@ import           Text.XML.HXT.Core
 feedUrl :: String
 feedUrl = "http://feeds.soundcloud.com/users/soundcloud:users:189413584/sounds.rss"
 
-
 itunesNs :: String
 itunesNs = "http://www.itunes.com/dtds/podcast-1.0.dtd"
-
-type Description = String
-
-server' :: IO ()
-server' =
-  S.scotty 3000 $
-    S.get "/feed.rss" $ do
-      res <- liftIO $ fetchFeed feedUrl
-      let doc = readString [withWarnings yes] $ T.unpack res
-      descs <- liftIO $ runX . xshow $ doc >>> processChildren (selectDescriptions >>> changeText (const "wat"))
-      S.text $ T.pack $ show descs
 
 infixr 5 />/
 (/>/) :: ArrowXml a => a XmlTree XmlTree -> a XmlTree XmlTree -> a XmlTree XmlTree
@@ -43,14 +31,25 @@ pred />/ action = processChildren action `when` pred
 server :: IO ()
 server = do
   rss <- readFile "test/fixtures/sounds.rss"
-  let doc = readString [withWarnings yes] rss
-  _ <- runX . xshow $
+  transformRSS rss >>= putStrLn
+
+server' :: IO ()
+server' =
+  S.scotty 3000 $
+    S.get "/feed.rss" $ do
+      res <- liftIO $ transformRSS =<< T.unpack <$> fetchFeed feedUrl
+      S.text $ T.pack res
+
+transformRSS :: String -> IO String
+transformRSS input = do
+  let doc = readString [withWarnings yes] input
+  [res] <- runX $
     doc
     >>> propagateNamespaces
     >>> processTopDown processFeed
     >>> indentDoc
-    >>> writeDocument [] ""
-  return ()
+    >>> writeDocumentToString []
+  return res
 
 processFeed :: ArrowXml a => a XmlTree XmlTree
 processFeed = (isElem >>> hasName "item") />/ selectDescriptions />/ changeText (const "***WOOT***")
