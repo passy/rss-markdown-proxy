@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" version="2.0">
+  <channel>
+    <atom:link href="http://feeds.soundcloud.com/users/soundcloud:users:189413584/sounds.rss" rel="self" type="application/rss+xml"/>
+    <atom:link href="http://feeds.soundcloud.com/users/soundcloud:users:189413584/sounds.rss?before=236128018" rel="next" type="application/rss+xml"/>
+    <title>Strictly Untyped</title>
+    <link>http://soundcloud.com/strictly-untyped</link>
+    <pubDate>Thu, 10 Dec 2015 13:56:52 +0000</pubDate>
+    <lastBuildDate>Thu, 10 Dec 2015 13:56:52 +0000</lastBuildDate>
+    <ttl>60</ttl>
+    <language>en</language>
+    <copyright>All rights reserved</copyright>
+    <webMaster>feeds@soundcloud.com (SoundCloud Feeds)</webMaster>
+    <description>A podcast about technology and programming but not strictly limited to those two.</description>
+    <itunes:subtitle>A podcast about technology and programming but no…</itunes:subtitle>
+    <itunes:owner>
+      <itunes:name>Strictly Untyped</itunes:name>
+      <itunes:email>feeds@soundcloud.com</itunes:email>
+    </itunes:owner>
+    <itunes:author>Ramón Argüello &amp; Pascal Hartig</itunes:author>
+    <itunes:explicit>no</itunes:explicit>
+    <itunes:image href="http://i1.sndcdn.com/avatars-000191863327-i59enp-original.jpg"/>
+    <image>
+      <url>http://i1.sndcdn.com/avatars-000191863327-i59enp-original.jpg</url>
+      <title>Strictly Untyped</title>
+      <link>http://soundcloud.com/strictly-untyped</link>
+    </image>
+    <itunes:category text="Technology"/>
+    <item>
+      <guid isPermaLink="false">tag:soundcloud,2010:tracks/236934352</guid>
+      <title>1: Android vs. iOS</title>
+      <pubDate>Thu, 10 Dec 2015 00:00:00 +0000</pubDate>
+      <link>https://soundcloud.com/strictly-untyped/1-android-vs-ios</link>
+      <itunes:duration>00:39:31</itunes:duration>
+      <itunes:author>Ramón Argüello &amp; Pascal Hartig</itunes:author>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:summary>For their first real episode, Ramón and Passy talk about some of the latest news in tech and address the elephant in the room: Android vs iOS from a DX (Developer Experience) perspective.
+
+## Follow-Up
+
+* Talking about podcasts on podcasts: https://overcast.fm/+EtBoIE-HU/7:21
+
+## Other Topics
+
+* Apple open sourcing Swift: https://github.com/apple/swift
+* Dropbox shutting down Mailbox + Carousel: https://blogs.dropbox.com/dropbox/2015/12/saying-goodbye-to-carousel-and-mailbox/
+* Apple's new gorgeous iPhone battery case: http://www.apple.com/shop/product/MGQM2LL/A/iphone-6s-smart-battery-case-white
+* Apple May Replace 3.5mm Headphone Jack on iPhone 7 With All-in-One Lightning Connector: http://www.macrumors.com/2015/11/27/iphone-7-no-3-5mm-headphone-jack-lightning/
+* Google Play Store will soon display if an app contains ads: http://www.techtimes.com/articles/108538/20151120/google-play-store-will-soon-warn-users-if-apps-have-ads.htm
+
+## Links
+
+* Android Needs A Simulator by Jake Wharton: http://jakewharton.com/android-needs-a-simulator/
+
+## About
+
+* Ramón Argüello: https://twitter.com/monchote
+* Pascal Hartig: https://twitter.com/passy
+* Strictly Untyped: https://twitter.com/strictlyuntyped</itunes:summary>
+      <itunes:subtitle>For their first real episode, Ramón and Passy tal…</itunes:subtitle>
+      <description>For their first real episode, Ramón and Passy talk about some of the latest news in tech and address the elephant in the room: Android vs iOS from a DX (Developer Experience) perspective.
+
+## Follow-Up
+
+* Talking about podcasts on podcasts: https://overcast.fm/+EtBoIE-HU/7:21
+
+## Other Topics
+
+* Apple open sourcing Swift: https://github.com/apple/swift
+* Dropbox shutting down Mailbox + Carousel: https://blogs.dropbox.com/dropbox/2015/12/saying-goodbye-to-carousel-and-mailbox/
+* Apple's new gorgeous iPhone battery case: http://www.apple.com/shop/product/MGQM2LL/A/iphone-6s-smart-battery-case-white
+* Apple May Replace 3.5mm Headphone Jack on iPhone 7 With All-in-One Lightning Connector: http://www.macrumors.com/2015/11/27/iphone-7-no-3-5mm-headphone-jack-lightning/
+* Google Play Store will soon display if an app contains ads: http://www.techtimes.com/articles/108538/20151120/google-play-store-will-soon-warn-users-if-apps-have-ads.htm
+
+## Links
+
+* Android Needs A Simulator by Jake Wharton: http://jakewharton.com/android-needs-a-simulator/
+
+## About
+
+* Ramón Argüello: https://twitter.com/monchote
+* Pascal Hartig: https://twitter.com/passy
+* Strictly Untyped: https://twitter.com/strictlyuntyped</description>
+      <enclosure type="audio/x-m4a" url="http://feeds.soundcloud.com/stream/236934352-strictly-untyped-1-android-vs-ios.m4a" length="40088104"/>
+      <itunes:image href="http://i1.sndcdn.com/avatars-000191863327-i59enp-original.jpg"/>
+    </item>
+    <item>
+      <guid isPermaLink="false">tag:soundcloud,2010:tracks/236128018</guid>
+      <title>0: Introductions</title>
+      <pubDate>Fri, 04 Dec 2015 00:00:00 +0000</pubDate>
+      <link>https://soundcloud.com/strictly-untyped/0-introductions</link>
+      <itunes:duration>00:11:52</itunes:duration>
+      <itunes:author>Ramón Argüello &amp; Pascal Hartig</itunes:author>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:summary>Pascal Hartig (@passy) and Ramón Argüello (@monchote) are the hosts of this new podcast about technology, programming, audiovisual entertainment and any other topic that comes up while recording.
+
+In this episode they'd like to take 10 minutes of your time to introduce themselves.
+
+Find more about Stricly Untyped at: https://twitter.com/strictlyuntyped</itunes:summary>
+      <itunes:subtitle>Pascal Hartig (@passy) and Ramón Argüello (@monch…</itunes:subtitle>
+      <description>Pascal Hartig (@passy) and Ramón Argüello (@monchote) are the hosts of this new podcast about technology, programming, audiovisual entertainment and any other topic that comes up while recording.
+
+In this episode they'd like to take 10 minutes of your time to introduce themselves.
+
+Find more about Stricly Untyped at: https://twitter.com/strictlyuntyped</description>
+      <enclosure type="audio/x-m4a" url="http://feeds.soundcloud.com/stream/236128018-strictly-untyped-0-introductions.m4a" length="13926073"/>
+      <itunes:image href="http://i1.sndcdn.com/avatars-000191863327-i59enp-original.jpg"/>
+    </item>
+  </channel>
+</rss>

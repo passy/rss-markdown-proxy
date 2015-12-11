@@ -23,7 +23,12 @@ library
                      , bytestring
                      , scotty
                      , wreq
+                     , hxt
   default-language:    Haskell2010
+  other-extensions:    OverloadedStrings
+                     , Arrows
+                     , NoImplicitPrelude
+                     , ExistentialQuantification
 
 executable rss-markdown-proxy-exe
   hs-source-dirs:      app
@@ -39,6 +44,11 @@ test-suite rss-markdown-proxy-test
   main-is:             Spec.hs
   build-depends:       base
                      , rss-markdown-proxy
+                     , hspec
+                     , basic-prelude
+                     , directory
+                     , hxt
+                     , text
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
 
