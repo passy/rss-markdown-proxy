@@ -33,7 +33,7 @@ server =
     S.get "/feed.rss" $ do
       res <- liftIO $ fetchFeed feedUrl
       let doc = readString [withWarnings yes] $ T.unpack res
-      descs <- liftIO $ runX $ doc >>> selectDescriptions
+      descs <- liftIO $ runX . xshow $ doc >>> processChildren (selectDescriptions >>> changeText (const "wat"))
       S.text $ T.pack $ show descs
 
 fetchFeed :: String -> IO T.Text
