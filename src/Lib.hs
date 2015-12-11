@@ -27,14 +27,33 @@ itunesNs = "http://www.itunes.com/dtds/podcast-1.0.dtd"
 
 type Description = String
 
-server :: IO ()
-server =
+server' :: IO ()
+server' =
   S.scotty 3000 $
     S.get "/feed.rss" $ do
       res <- liftIO $ fetchFeed feedUrl
       let doc = readString [withWarnings yes] $ T.unpack res
       descs <- liftIO $ runX . xshow $ doc >>> processChildren (selectDescriptions >>> changeText (const "wat"))
       S.text $ T.pack $ show descs
+
+infixr 5 />/
+(/>/) :: ArrowXml a => a XmlTree XmlTree -> a XmlTree XmlTree -> a XmlTree XmlTree
+pred />/ action = processChildren action `when` pred
+
+server :: IO ()
+server = do
+  rss <- readFile "test/fixtures/sounds.rss"
+  let doc = readString [withWarnings yes] rss
+  _ <- runX . xshow $
+    doc
+    >>> propagateNamespaces
+    >>> processTopDown processFeed
+    >>> indentDoc
+    >>> writeDocument [] ""
+  return ()
+
+processFeed :: ArrowXml a => a XmlTree XmlTree
+processFeed = (isElem >>> hasName "item") />/ selectDescriptions />/ changeText (const "***WOOT***")
 
 fetchFeed :: String -> IO T.Text
 fetchFeed url = do
@@ -43,11 +62,5 @@ fetchFeed url = do
 
 selectDescriptions :: ArrowXml a => a XmlTree XmlTree
 selectDescriptions =
-  let
-    summaryQName = mkNsName "summary" itunesNs
-    filter' = hasQName summaryQName <+> hasName "description"
-  in
-    propagateNamespaces //> hasName "item" /> filter'
-
-atTag :: ArrowXml a => QName -> a XmlTree XmlTree
-atTag tag = deep (isElem >>> hasQName tag)
+  let summaryQName = mkNsName "summary" itunesNs
+  in isElem >>> (hasQName summaryQName <+> hasName "description")
