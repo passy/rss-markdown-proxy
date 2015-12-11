@@ -5,17 +5,17 @@ module Lib
     , selectDescriptions
     ) where
 
-import qualified Data.ByteString.Lazy    as BS
-import qualified Data.Text.Lazy          as T
-import qualified Data.Text.Lazy.Encoding as TE
-import qualified Network.Wreq            as W
-import qualified Web.Scotty              as S
+import qualified Data.ByteString.Lazy          as BS
+import qualified Data.Text.Lazy                as T
+import qualified Data.Text.Lazy.Encoding       as TE
+import qualified Network.Wreq                  as W
+import qualified Web.Scotty                    as S
 
-import           Control.Arrow           ((>>>))
-import           Control.Monad.IO.Class  (liftIO)
-import Debug.Trace
+import           Control.Monad.IO.Class        (liftIO)
+import           Text.Blaze.Html.Renderer.Text (renderHtml)
+import           Text.Markdown                 (def, markdown)
 
-import           Control.Lens            hiding (deep)
+import           Control.Lens                  hiding (deep)
 import           Text.XML.HXT.Core
 
 feedUrl :: String
@@ -52,7 +52,10 @@ transformRSS input = do
   return res
 
 processFeed :: ArrowXml a => a XmlTree XmlTree
-processFeed = (isElem >>> hasName "item") />/ selectDescriptions />/ changeText (const "***WOOT***")
+processFeed = (isElem >>> hasName "item") />/ selectDescriptions />/ changeText renderMarkdownToHtml
+
+renderMarkdownToHtml :: String -> String
+renderMarkdownToHtml = T.pack >>> markdown def >>> renderHtml >>> T.unpack
 
 fetchFeed :: String -> IO T.Text
 fetchFeed url = do

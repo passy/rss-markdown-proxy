@@ -24,6 +24,8 @@ library
                      , scotty
                      , wreq
                      , hxt
+                     , markdown
+                     , blaze-html
   default-language:    Haskell2010
   other-extensions:    OverloadedStrings
                      , Arrows

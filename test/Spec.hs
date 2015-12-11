@@ -32,7 +32,8 @@ main :: IO ()
 main = hspec $
   describe "XML Parser" $
     it "reads descriptions" $ do
-    file <- liftIO $ openFixture "sounds.rss"
-    descs <- liftIO $ runX $ file >>> selectDescriptions /> getText
+    doc <- liftIO $ openFixture "sounds.rss"
+    descs <- liftIO $ runX $
+      doc >>> propagateNamespaces >>> deep selectDescriptions /> getText
 
-    length (traceShowId descs) `shouldBe` 4
+    length (traceShowId descs) `shouldBe` 5
