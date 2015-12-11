@@ -2,7 +2,7 @@
 
 module Lib
     ( server
-    , readDescriptions
+    , selectDescriptions
     ) where
 
 import qualified Data.ByteString.Lazy    as BS
@@ -33,7 +33,7 @@ server =
     S.get "/feed.rss" $ do
       res <- liftIO $ fetchFeed feedUrl
       let doc = readString [withWarnings yes] $ T.unpack res
-      descs <- liftIO $ readDescriptions doc
+      descs <- liftIO $ runX $ doc >>> selectDescriptions
       S.text $ T.pack $ show descs
 
 fetchFeed :: String -> IO T.Text
@@ -41,13 +41,13 @@ fetchFeed url = do
   r <- W.get url
   return $ TE.decodeUtf8 $ r ^. W.responseBody
 
-readDescriptions :: IOSLA (XIOState ()) XmlTree XmlTree -> IO [Description]
-readDescriptions doc =
-  runX $ doc >>> selectDescriptions //> getText
-
-  where
-    summaryName = traceShowId (mkNsName "summary" itunesNs)
-    selectDescriptions = getChildren >>> isElem >>> hasQName summaryName
+selectDescriptions :: ArrowXml a => a XmlTree XmlTree
+selectDescriptions =
+  let
+    summaryQName = mkNsName "summary" itunesNs
+    filter' = hasQName summaryQName <+> hasName "description"
+  in
+    propagateNamespaces //> hasName "item" /> filter'
 
 atTag :: ArrowXml a => QName -> a XmlTree XmlTree
 atTag tag = deep (isElem >>> hasQName tag)

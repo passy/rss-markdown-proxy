@@ -11,6 +11,7 @@ import           System.IO         (Handle (), IOMode (ReadMode), openFile,
 import           Lib
 import           Test.Hspec
 import           Text.XML.HXT.Core
+import           Debug.Trace
 
 openFixture :: forall s b. FilePath -> IO (IOStateArrow s b XmlTree)
 openFixture path = do
@@ -32,6 +33,6 @@ main = hspec $
   describe "XML Parser" $
     it "reads descriptions" $ do
     file <- liftIO $ openFixture "sounds.rss"
-    descs <- liftIO $ readDescriptions file
+    descs <- liftIO $ runX $ file >>> selectDescriptions /> getText
 
-    length descs `shouldBe` 2
+    length (traceShowId descs) `shouldBe` 4
