@@ -13,12 +13,17 @@ import qualified Web.Scotty              as S
 
 import           Control.Arrow           ((>>>))
 import           Control.Monad.IO.Class  (liftIO)
+import Debug.Trace
 
 import           Control.Lens            hiding (deep)
 import           Text.XML.HXT.Core
 
 feedUrl :: String
 feedUrl = "http://feeds.soundcloud.com/users/soundcloud:users:189413584/sounds.rss"
+
+
+itunesNs :: String
+itunesNs = "http://www.itunes.com/dtds/podcast-1.0.dtd"
 
 type Description = String
 
@@ -38,11 +43,11 @@ fetchFeed url = do
 
 readDescriptions :: IOSLA (XIOState ()) XmlTree XmlTree -> IO [Description]
 readDescriptions doc =
-  runX $ doc >>> selectDescriptions >>> parseDescription
+  runX $ doc >>> selectDescriptions //> getText
 
   where
-    selectDescriptions = getChildren >>> isElem >>> hasName "itunes:summary"
-    parseDescription = atTag "itunes:summary" >>> getText
+    summaryName = traceShowId (mkNsName "summary" itunesNs)
+    selectDescriptions = getChildren >>> isElem >>> hasQName summaryName
 
-atTag :: ArrowXml a => String -> a XmlTree XmlTree
-atTag tag = deep (isElem >>> hasName tag)
+atTag :: ArrowXml a => QName -> a XmlTree XmlTree
+atTag tag = deep (isElem >>> hasQName tag)
