@@ -1,6 +1,6 @@
 module Main where
 
-import Lib (server)
+import Lib.Server (server)
 
 main :: IO ()
 main = server

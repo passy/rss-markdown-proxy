@@ -1,8 +1,9 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 module Lib
-    ( server
-    , selectDescriptions
+    ( selectDescriptions
+    , fetchFeed
+    , transformRSS
     ) where
 
 import qualified Data.ByteString.Lazy          as BS
@@ -14,12 +15,11 @@ import qualified Web.Scotty                    as S
 import           Control.Monad.IO.Class        (liftIO)
 import           Text.Blaze.Html.Renderer.Text (renderHtml)
 import           Text.Markdown                 (def, markdown)
+import Data.TCache (atomically)
+import Data.TCache.Memoization (cachedByKeySTM)
 
 import           Control.Lens                  hiding (deep)
 import           Text.XML.HXT.Core
-
-feedUrl :: String
-feedUrl = "http://feeds.soundcloud.com/users/soundcloud:users:189413584/sounds.rss"
 
 itunesNs :: String
 itunesNs = "http://www.itunes.com/dtds/podcast-1.0.dtd"
@@ -27,18 +27,6 @@ itunesNs = "http://www.itunes.com/dtds/podcast-1.0.dtd"
 infixr 5 />/
 (/>/) :: ArrowXml a => a XmlTree XmlTree -> a XmlTree XmlTree -> a XmlTree XmlTree
 pred />/ action = processChildren action `when` pred
-
-server :: IO ()
-server = do
-  rss <- readFile "test/fixtures/sounds.rss"
-  transformRSS rss >>= putStrLn
-
-server' :: IO ()
-server' =
-  S.scotty 3000 $
-    S.get "/feed.rss" $ do
-      res <- liftIO $ transformRSS =<< T.unpack <$> fetchFeed feedUrl
-      S.text $ T.pack res
 
 transformRSS :: String -> IO String
 transformRSS input = do

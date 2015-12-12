@@ -13,10 +13,16 @@ import           Test.Hspec
 import           Text.XML.HXT.Core
 import           Debug.Trace
 
-openFixture :: forall s b. FilePath -> IO (IOStateArrow s b XmlTree)
-openFixture path = do
+openFixture :: forall a. (FilePath -> IO a) -> FilePath -> IO a
+openFixture f path = do
     dir <- getCurrentDirectory
-    openXMLFile $ dir </> "test" </> "fixtures" </> path
+    f $ dir </> "test" </> "fixtures" </> path
+
+openXMLFixture :: forall s b. FilePath -> IO (IOStateArrow s b XmlTree)
+openXMLFixture = openFixture openXMLFile
+
+openStringFixture :: FilePath -> IO String
+openStringFixture = fmap T.unpack . openFixture readFile
 
 openXMLFile :: forall s b. FilePath -> IO (IOStateArrow s b XmlTree)
 openXMLFile = (readXMLFileHandle =<<) . getHandle
@@ -29,11 +35,20 @@ readXMLFileHandle h = do
     return $ readString [withWarnings yes] $ T.unpack contents
 
 main :: IO ()
-main = hspec $
+main = hspec $ do
   describe "XML Parser" $
     it "reads descriptions" $ do
-    doc <- liftIO $ openFixture "sounds.rss"
+    doc <- liftIO $ openXMLFixture "sounds.rss"
     descs <- liftIO $ runX $
       doc >>> propagateNamespaces >>> deep selectDescriptions /> getText
 
     length (traceShowId descs) `shouldBe` 5
+
+  describe "RSS Transformer" $
+    it "transforms correctly" $ do
+    input <- liftIO $ openStringFixture "sounds.rss"
+    expected <- liftIO $ openStringFixture "output.rss"
+
+    output <- liftIO $ transformRSS input
+
+    output `shouldBe` expected

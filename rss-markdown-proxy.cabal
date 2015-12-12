@@ -16,6 +16,8 @@ cabal-version:       >=1.10
 library
   hs-source-dirs:      src
   exposed-modules:     Lib
+                     , Lib.Server
+                     , Lib.CLI
   build-depends:       base >= 4.7 && < 5
                      , lens
                      , text
@@ -26,6 +28,7 @@ library
                      , hxt
                      , markdown
                      , blaze-html
+                     , TCache
   default-language:    Haskell2010
   other-extensions:    OverloadedStrings
                      , Arrows
