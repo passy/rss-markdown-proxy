@@ -28,9 +28,6 @@ $ rss-markdown-proxy "http://feeds.soundcloud.com/users/soundcloud:users:1894135
 $ curl "http://localhost:3000/feed.rss"
 ```
 
-N.B. Right now, the command line argument is actually ignored. I'll
-take care of that later.
-
 ## Caching
 
 Responses are cached for five minutes by default.
@@ -91,7 +88,7 @@ Output snippet:
   Argüello: https://twitter.com/monchote</li><li>Pascal Hartig:
   https://twitter.com/passy</li><li>Strictly Untyped:
   https://twitter.com/strictlyuntyped</li></ul>]]>
-</itunes:summary> 
+</itunes:summary>
 ```
 
 ## License
