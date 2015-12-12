@@ -29,6 +29,7 @@ library
                      , markdown
                      , blaze-html
                      , TCache
+                     , data-default
   default-language:    Haskell2010
   other-extensions:    OverloadedStrings
                      , Arrows

@@ -2,6 +2,8 @@
 
 module Lib.Server
     ( server
+    , ServerOptions(..)
+    , Port(..)
     ) where
 
 import qualified Data.ByteString.Lazy          as BS
@@ -17,8 +19,9 @@ import           Data.TCache.Memoization       (cachedByKeySTM)
 import           Text.Blaze.Html.Renderer.Text (renderHtml)
 import           Text.Markdown                 (def, markdown)
 
-import           Lib                           (fetchFeed, transformRSS)
 import           Control.Lens                  hiding (deep)
+import           Data.Default                  (Default (), def)
+import           Lib                           (fetchFeed, transformRSS)
 import           Text.XML.HXT.Core
 
 type Seconds = Int
@@ -27,18 +30,29 @@ type Seconds = Int
 cacheTime :: Seconds
 cacheTime = 60 * 5
 
--- TODO: Obviously, this should be dynamic at least to some degree.
-feedUrl :: String
-feedUrl = "http://feeds.soundcloud.com/users/soundcloud:users:189413584/sounds.rss"
+newtype Port = Port Int
+  deriving (Read, Show)
+
+unPort :: Port -> Int
+unPort (Port i) = i
+
+-- | Command line options provided to start up the server.
+data ServerOptions = ServerOptions
+  { url  :: String
+  , port :: Port
+  }
+
+instance Default Port where
+  def = Port 3000
 
 transformUrlCached :: String -> IO String
 transformUrlCached url =
-  let perform = transformRSS =<< T.unpack <$> fetchFeed feedUrl
+  let perform = transformRSS =<< T.unpack <$> fetchFeed url
   in atomically $ cachedByKeySTM url cacheTime perform
 
-server :: IO ()
-server =
-  S.scotty 3000 $
+server :: ServerOptions -> IO ()
+server opts =
+  S.scotty (unPort $ port opts) $
     S.get "/feed.rss" $ do
-      res <- liftIO $ transformUrlCached feedUrl
+      res <- liftIO $ transformUrlCached $ url opts
       S.text $ T.pack res
