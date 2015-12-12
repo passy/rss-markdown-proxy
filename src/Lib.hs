@@ -52,7 +52,9 @@ transformRSS input = do
   return res
 
 processFeed :: ArrowXml a => a XmlTree XmlTree
-processFeed = (isElem >>> hasName "item") />/ selectDescriptions />/ changeText renderMarkdownToHtml
+processFeed = (isElem >>> hasName "item")
+  />/ selectDescriptions
+  />/ (getText >>> arr renderMarkdownToHtml >>> mkCdata)
 
 renderMarkdownToHtml :: String -> String
 renderMarkdownToHtml = T.pack >>> markdown def >>> renderHtml >>> T.unpack
