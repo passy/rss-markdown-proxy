@@ -13,10 +13,10 @@ import qualified Network.Wreq                  as W
 import qualified Web.Scotty                    as S
 
 import           Control.Monad.IO.Class        (liftIO)
+import           Data.TCache                   (atomically)
+import           Data.TCache.Memoization       (cachedByKeySTM)
 import           Text.Blaze.Html.Renderer.Text (renderHtml)
 import           Text.Markdown                 (def, markdown)
-import Data.TCache (atomically)
-import Data.TCache.Memoization (cachedByKeySTM)
 
 import           Control.Lens                  hiding (deep)
 import           Text.XML.HXT.Core
