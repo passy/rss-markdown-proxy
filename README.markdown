@@ -1,4 +1,5 @@
 # rss-markdown-proxy
+[![Build Status](https://travis-ci.org/passy/rss-markdown-proxy.svg)](https://travis-ci.org/passy/rss-markdown-proxy)
 
 > A reverse proxy rendering Markdown to HTML within RSS feeds for podcast
 > shownotes.
