@@ -17,20 +17,57 @@ you to author them in Markdown.
 
 ## Setup
 
-I will provide some pre-built binaries as soon as this is Stable Enough™.
-
 ```
 $ git clone http://github.com/passy/rss-markdown-proxy
 $ cd rss-markdown-proxy
 $ stack setup
 $ stack install
-$ rss-markdown-proxy "http://feeds.soundcloud.com/users/soundcloud:users:189413584/sounds.rss"
-$ curl "http://localhost:3000/feed.rss"
 ```
 
-## Caching
+## Usage
 
-Responses are cached for five minutes by default.
+This package comes with two binaries: `rss-markdown-proxy` and
+`rss-markdown-proxy-server`. The former is a stand-alone CLI tool version
+of the latter.
+
+### `rss-markdown-proxy-server`
+
+This starts a web server for a given URL and serves the transformed feed at
+`/feed.rss`. Responses are cached for 5 minutes. Open an issue if you believe
+that this should be configurable. It binds to "0.0.0.0". Again, open an issue or
+PR if that bothers you.
+
+Example usage:
+
+```bash
+$ rss-markdown-proxy-server -p 3000 "https://feeds.soundcloud.com/users/soundcloud:users:189413584/sounds.rss"
+$ curl http://localhost:3000/
+```
+
+### `rss-markdown-proxy`
+
+This tool can be used to transform local or remote feeds one-off or as part
+os a scheduled job.
+
+Local file:
+
+```bash
+# From the filesystem
+$ rss-markdown-proxy test/fixtures/sounds.rss
+# From STDIN
+$ rss-markdown-proxy < test/fixtures/sounds.rss
+# From URL
+$ rss-markdown-proxy -u "https://feeds.soundcloud.com/users/soundcloud:users:189413584/sounds.rss"
+```
+
+## Security Considerations
+
+The proxy is built to only serve a single URL. You could easily change it
+to proxy arbitrary RSS feeds, but I strongly advise against that setup.
+XML is a horrible mess and a lot of the code runs in IO. I have no idea
+whether or not this is vulnerable to the
+[Billion laughs](https://en.wikipedia.org/wiki/Billion_laughs) attack or not
+so I'd rather be safe then sorry by limiting this to trusted sources.
 
 ## Example
 
