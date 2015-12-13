@@ -1,12 +1,12 @@
 module Main where
 
-import Lib.Server (server, ServerOptions(..), Port(..))
+import           Lib.Server               (Port (..), ServerOptions (..),
+                                           server)
 
-import Options.Applicative
+import           Data.Default             (def)
+import           Data.Version             (Version (), showVersion)
+import           Options.Applicative
 import           Paths_rss_markdown_proxy (version)
-import Data.Version (Version(), showVersion)
-import Data.Monoid ((<>))
-import Data.Default (Default(), def)
 
 readPort :: ReadM Port
 readPort = eitherReader $ \arg -> case reads arg of

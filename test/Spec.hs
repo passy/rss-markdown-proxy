@@ -1,15 +1,13 @@
 {-# LANGUAGE ExistentialQuantification #-}
-{-# LANGUAGE NoImplicitPrelude         #-}
 {-# LANGUAGE OverloadedStrings         #-}
 
-import           BasicPrelude      hiding (fromString)
 import qualified Data.Text         as T
 import qualified Data.Text.IO      as TIO
 import           System.Directory  (getCurrentDirectory)
-import           System.IO         (Handle (), IOMode (ReadMode), openFile,
-                                    stdin)
+import           System.FilePath ((</>))
+import Control.Monad.IO.Class (liftIO)
+import           System.IO         (Handle (), IOMode (ReadMode), openFile)
 import           Lib
-import           Main (serverParser)
 import           Test.Hspec
 import           Text.XML.HXT.Core
 import           Debug.Trace
@@ -23,7 +21,7 @@ openXMLFixture :: forall s b. FilePath -> IO (IOStateArrow s b XmlTree)
 openXMLFixture = openFixture openXMLFile
 
 openStringFixture :: FilePath -> IO String
-openStringFixture = fmap T.unpack . openFixture readFile
+openStringFixture = openFixture readFile
 
 openXMLFile :: forall s b. FilePath -> IO (IOStateArrow s b XmlTree)
 openXMLFile = (readXMLFileHandle =<<) . getHandle
@@ -43,7 +41,7 @@ main = hspec $ do
     descs <- liftIO $ runX $
       doc >>> propagateNamespaces >>> deep selectDescriptions /> getText
 
-    length (traceShowId descs) `shouldBe` 5
+    length descs `shouldBe` 5
 
   describe "RSS Transformer" $
     it "transforms correctly" $ do

@@ -43,7 +43,7 @@ library
                     -- -fwarn-missing-import-lists
 
 executable rss-markdown-proxy-server
-  hs-source-dirs:      app
+  hs-source-dirs:      server
   main-is:             Main.hs
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   build-depends:       base
@@ -51,6 +51,28 @@ executable rss-markdown-proxy-server
                      , optparse-applicative
                      , data-default
   default-language:    Haskell2010
+  Ghc-options:         -Wall
+                       -fwarn-tabs
+                       -fwarn-incomplete-record-updates
+                       -fwarn-monomorphism-restriction
+                       -fwarn-unused-do-bind
+                    -- -fwarn-missing-import-lists
+
+executable rss-markdown-proxy
+  hs-source-dirs:      cli
+  main-is:             Main.hs
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  build-depends:       base
+                     , rss-markdown-proxy
+                     , text
+                     , optparse-applicative
+  default-language:    Haskell2010
+  Ghc-options:         -Wall
+                       -fwarn-tabs
+                       -fwarn-incomplete-record-updates
+                       -fwarn-monomorphism-restriction
+                       -fwarn-unused-do-bind
+                    -- -fwarn-missing-import-lists
 
 test-suite rss-markdown-proxy-test
   type:                exitcode-stdio-1.0
@@ -59,10 +81,11 @@ test-suite rss-markdown-proxy-test
   build-depends:       base
                      , rss-markdown-proxy
                      , hspec
-                     , basic-prelude
                      , directory
                      , hxt
                      , text
+                     , filepath
+                     , transformers
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
 
