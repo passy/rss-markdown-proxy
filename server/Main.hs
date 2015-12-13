@@ -18,7 +18,7 @@ serverParser ver =
   info ( helper <*> appOpts <**> versionInfo )
     ( fullDesc
    <> progDesc "Reverse proxy for rendering Markdown in RSS feeds"
-   <> header "rss-markdown-proxy" )
+   <> header "rss-markdown-proxy-server" )
   where
     appOpts = ServerOptions
       <$> argument str (metavar "URL")
@@ -29,7 +29,7 @@ serverParser ver =
          <> showDefault
          <> help "Port" )
 
-    versionInfo = infoOption ( "rss-markdown-proxy " ++ showVersion ver )
+    versionInfo = infoOption ( "rss-markdown-proxy-server " ++ showVersion ver )
       ( short 'V'
      <> long "version"
      <> hidden
