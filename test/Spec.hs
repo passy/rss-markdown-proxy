@@ -9,6 +9,7 @@ import           System.Directory  (getCurrentDirectory)
 import           System.IO         (Handle (), IOMode (ReadMode), openFile,
                                     stdin)
 import           Lib
+import           Main (serverParser)
 import           Test.Hspec
 import           Text.XML.HXT.Core
 import           Debug.Trace

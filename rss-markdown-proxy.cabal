@@ -35,6 +35,12 @@ library
                      , Arrows
                      , NoImplicitPrelude
                      , ExistentialQuantification
+  Ghc-options:         -Wall
+                       -fwarn-tabs
+                       -fwarn-incomplete-record-updates
+                       -fwarn-monomorphism-restriction
+                       -fwarn-unused-do-bind
+                    -- -fwarn-missing-import-lists
 
 executable rss-markdown-proxy-server
   hs-source-dirs:      app

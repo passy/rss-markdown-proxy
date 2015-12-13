@@ -6,15 +6,10 @@ module Lib
     , transformRSS
     ) where
 
-import qualified Data.ByteString.Lazy          as BS
 import qualified Data.Text.Lazy                as T
 import qualified Data.Text.Lazy.Encoding       as TE
 import qualified Network.Wreq                  as W
-import qualified Web.Scotty                    as S
 
-import           Control.Monad.IO.Class        (liftIO)
-import           Data.TCache                   (atomically)
-import           Data.TCache.Memoization       (cachedByKeySTM)
 import           Text.Blaze.Html.Renderer.Text (renderHtml)
 import           Text.Markdown                 (def, markdown)
 
@@ -26,7 +21,7 @@ itunesNs = "http://www.itunes.com/dtds/podcast-1.0.dtd"
 
 infixr 5 />/
 (/>/) :: ArrowXml a => a XmlTree XmlTree -> a XmlTree XmlTree -> a XmlTree XmlTree
-pred />/ action = processChildren action `when` pred
+predicate />/ action = processChildren action `when` predicate
 
 transformRSS :: String -> IO String
 transformRSS input = do
