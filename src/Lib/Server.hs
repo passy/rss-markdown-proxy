@@ -52,4 +52,5 @@ server opts =
   S.scotty (unPort $ opts ^. port) $
     S.get "/feed.rss" $ do
       res <- liftIO $ transformUrlCached $ opts ^. url
+      S.setHeader "Content-Type" "application/rss+xml;charset=utf-8"
       S.text $ T.pack res
