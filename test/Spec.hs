@@ -1,16 +1,15 @@
 {-# LANGUAGE ExistentialQuantification #-}
 {-# LANGUAGE OverloadedStrings         #-}
 
-import qualified Data.Text         as T
-import qualified Data.Text.IO      as TIO
-import           System.Directory  (getCurrentDirectory)
-import           System.FilePath ((</>))
-import Control.Monad.IO.Class (liftIO)
-import           System.IO         (Handle (), IOMode (ReadMode), openFile)
+import           Control.Monad.IO.Class (liftIO)
+import qualified Data.Text              as T
+import qualified Data.Text.IO           as TIO
 import           Lib
+import           System.Directory       (getCurrentDirectory)
+import           System.FilePath        ((</>))
+import           System.IO              (Handle (), IOMode (ReadMode), openFile)
 import           Test.Hspec
 import           Text.XML.HXT.Core
-import           Debug.Trace
 
 openFixture :: forall a. (FilePath -> IO a) -> FilePath -> IO a
 openFixture f path = do
