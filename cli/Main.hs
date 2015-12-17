@@ -47,6 +47,6 @@ main =
 
     transformFile :: CliOptions -> IO ()
     transformFile opts =
-      putStrLn =<< case path opts of
-        Nothing -> transformRSS =<< getContents
-        Just path' -> transformRSS =<< readFile path'
+      putStrLn =<< transformRSS =<< case path opts of
+        Nothing -> getContents
+        Just path' -> readFile path'
