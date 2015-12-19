@@ -13,17 +13,16 @@ import qualified Web.Scotty              as S
 
 import           Control.Lens
 import           Control.Monad.IO.Class  (liftIO)
+import           Data.Default            (Default (), def)
+import           Data.Hourglass.Types    (Seconds (), toSeconds)
 import           Data.TCache             (atomically)
 import           Data.TCache.Memoization (cachedByKeySTM)
 
-import           Data.Default            (Default (), def)
 import           Lib                     (fetchFeed, transformRSS)
-
-type Seconds = Int
 
 -- | Cache expiration time in seconds.
 cacheTime :: Seconds
-cacheTime = 60 * 5
+cacheTime = 60
 
 newtype Port = Port Int
   deriving (Read, Show)
@@ -45,7 +44,8 @@ instance Default Port where
 transformUrlCached :: String -> IO String
 transformUrlCached url' =
   let perform = transformRSS =<< T.unpack <$> fetchFeed url'
-  in atomically $ cachedByKeySTM url' cacheTime perform
+      seconds = fromEnum $ toSeconds cacheTime
+  in atomically $ cachedByKeySTM url' seconds perform
 
 server :: ServerOptions -> IO ()
 server opts =
