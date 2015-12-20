@@ -30,6 +30,7 @@ library
                      , blaze-html
                      , TCache
                      , data-default
+                     , hourglass
   default-language:    Haskell2010
   other-extensions:    OverloadedStrings
                      , Arrows
