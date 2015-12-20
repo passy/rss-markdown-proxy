@@ -70,6 +70,25 @@ whether or not this is vulnerable to the
 [Billion laughs](https://en.wikipedia.org/wiki/Billion_laughs) attack or not
 so I'd rather be safe then sorry by limiting this to trusted sources.
 
+## Dockerizificationism :whale:
+
+If you want to use Docker to deploy this somewhere, here are some steps
+which might be useful. You need a recent version of Docker that supports
+the `ARG` command. I'll put something on Docker Hub in the future so
+you don't have to deal with this.
+
+*Run image*
+
+```
+docker run --rm -p 3000:3000 rss-markdown-proxy "http://feeds.soundcloud.com/users/soundcloud:users:189413584/sounds.rss"
+```
+
+*Build a new image*
+
+```
+docker build --build-arg version=v0.1.0.0 -t rss-markdown-proxy .
+```
+
 ## Example
 
 Input snippet:
