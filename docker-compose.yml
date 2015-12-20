@@ -1,0 +1,6 @@
+rssprox:
+  image: passy/rss-markdown-proxy:v0.1.0.0
+  ports:
+    - "3000:3000"
+  restart: unless-stopped
+  command: "https://feeds.soundcloud.com/users/soundcloud:users:189413584/sounds.rss"
