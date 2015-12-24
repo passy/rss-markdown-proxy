@@ -74,19 +74,21 @@ so I'd rather be safe then sorry by limiting this to trusted sources.
 
 If you want to use Docker to deploy this somewhere, here are some steps
 which might be useful. You need a recent version of Docker that supports
-the `ARG` command. I'll put something on Docker Hub in the future so
-you don't have to deal with this.
+the `ARG` command if you want to build an image yourself. There
+are (semi-)automatic builds available on
+[Docker Hub](https://hub.docker.com/r/passy/rss-markdown-proxy/).
 
 *Run image*
 
 ```
-docker run --rm -p 3000:3000 rss-markdown-proxy "http://feeds.soundcloud.com/users/soundcloud:users:189413584/sounds.rss"
+docker pull rss-markdown-proxy:v0.1.0.0
+docker run --rm -p 3000:3000 rss-markdown-proxy:v0.1.0.0 "https://feeds.soundcloud.com/users/soundcloud:users:189413584/sounds.rss"
 ```
 
 *Build a new image*
 
 ```
-docker build --build-arg version=v0.1.0.0 -t rss-markdown-proxy .
+docker build --build-arg version=$(git describe --tags --always) -t rss-markdown-proxy .
 ```
 
 ## Example
