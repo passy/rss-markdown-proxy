@@ -67,7 +67,7 @@ The proxy is built to only serve a single URL. You could easily change it
 to proxy arbitrary RSS feeds, but I strongly advise against that setup.
 XML is a horrible mess and a lot of the code runs in IO. I have no idea
 whether or not this is vulnerable to the
-[Billion laughs](https://en.wikipedia.org/wiki/Billion_laughs) attack or not
+[Billion laughs](https://en.wikipedia.org/wiki/Billion_laughs) attack
 so I'd rather be safe then sorry by limiting this to trusted sources.
 
 ## Dockerizificationism :whale:
