@@ -45,7 +45,7 @@ renderMarkdownToHtml = T.pack >>> markdown def >>> renderHtml >>> T.unpack
 fetchFeed :: String -> IO T.Text
 fetchFeed url = do
   r <- W.get url
-  return $ TE.decodeUtf8 $ r ^. W.responseBody
+  return $ r ^. W.responseBody & TE.decodeUtf8
 
 selectDescriptions :: ArrowXml a => a XmlTree XmlTree
 selectDescriptions =
