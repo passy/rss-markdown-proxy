@@ -1,10 +1,14 @@
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE TemplateHaskell   #-}
+{-# LANGUAGE CPP               #-}
 
 module Lib.Server
     ( server
     , ServerOptions(..)
     , Port(..)
+    , Server()
+    , Metrics()
     ) where
 
 
@@ -20,26 +24,35 @@ import           Data.TCache.Memoization (cachedByKeySTM)
 
 import           Lib                     (fetchFeed, transformRSS)
 
+-- import System.Remote.Monitoring (serverMetricStore, forkServer)
+
 -- | Cache expiration time in seconds.
 cacheTime :: Seconds
 cacheTime = 60
 
-newtype Port = Port Int
+newtype Port a = Port Int
   deriving (Read, Show)
 
-unPort :: Port -> Int
+unPort :: Port a -> Int
 unPort (Port i) = i
+
+data Server
+data Metrics
 
 -- | Command line options provided to start up the server.
 data ServerOptions = ServerOptions
   { _url  :: String
-  , _port :: Port
+  , _port :: Port Server
+  , _metricsPort :: Port Metrics
   }
 
 makeLenses ''ServerOptions
 
-instance Default Port where
+instance Default (Port Server) where
   def = Port 3000
+
+instance Default (Port Metrics) where
+  def = Port 3001
 
 transformUrlCached :: String -> IO String
 transformUrlCached url' =

@@ -61,6 +61,15 @@ $ rss-markdown-proxy < test/fixtures/sounds.rss
 $ rss-markdown-proxy -u "https://feeds.soundcloud.com/users/soundcloud:users:189413584/sounds.rss"
 ```
 
+## Metrics
+
+Like stats? So do I! If you compile with the `metrics` flag, you get a built-in
+metrics server. Only with `rss-markdown-proxy-server`, though, as it doesn't make a whole lot of sense for short-lived programs.
+
+```
+$ stack build --flag=rss-markdown-proxy:metrics
+```
+
 ## Security Considerations
 
 The proxy is built to only serve a single URL. You could easily change it

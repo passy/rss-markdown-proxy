@@ -31,6 +31,10 @@ library
                      , TCache
                      , data-default
                      , hourglass
+  if flag(metrics)
+    build-depends:     wai-middleware-metrics
+    other-extensions:  CPP
+    cpp-options:       -DWITH_METRICS
   default-language:    Haskell2010
   other-extensions:    OverloadedStrings
                      , Arrows
@@ -68,7 +72,7 @@ executable rss-markdown-proxy
                      , text
                      , optparse-applicative
   default-language:    Haskell2010
-  Ghc-options:         -Wall
+  ghc-options:         -Wall
                        -fwarn-tabs
                        -fwarn-incomplete-record-updates
                        -fwarn-monomorphism-restriction
@@ -87,9 +91,15 @@ test-suite rss-markdown-proxy-test
                      , text
                      , filepath
                      , transformers
-  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  ghc-options:         -threaded -rtsopts -with-rtsopts="-N -T"
   default-language:    Haskell2010
 
 source-repository head
   type:     git
   location: https://github.com/passy/rss-markdown-proxy
+
+-- XXX: This is not actually optional at the moment, but hopefully will be soon.
+flag metrics
+  description: Enable runtime statistics
+  default: True
+  manual: True
