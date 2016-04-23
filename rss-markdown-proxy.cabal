@@ -10,7 +10,6 @@ maintainer:          phartig@rdrei.net
 copyright:           2015 Pascal Hartig
 category:            Web
 build-type:          Simple
--- extra-source-files:
 cabal-version:       >=1.10
 
 library
@@ -18,6 +17,8 @@ library
   exposed-modules:     Lib
                      , Lib.Server
                      , Lib.CLI
+                     , Lib.Types
+                     , Lib.Metrics
   build-depends:       base >= 4.7 && < 5
                      , lens
                      , text
@@ -31,22 +32,24 @@ library
                      , TCache
                      , data-default
                      , hourglass
+                     , wai
   if flag(metrics)
     build-depends:     wai-middleware-metrics
                      , ekg
-    other-extensions:  CPP
-    cpp-options:       -DWITH_METRICS
+    hs-source-dirs:    metrics
+  else
+    hs-source-dirs:    metrics-noop
   default-language:    Haskell2010
   other-extensions:    OverloadedStrings
                      , Arrows
                      , NoImplicitPrelude
                      , ExistentialQuantification
+                     , TemplateHaskell
   ghc-options:         -Wall
                        -fwarn-tabs
                        -fwarn-incomplete-record-updates
                        -fwarn-monomorphism-restriction
                        -fwarn-unused-do-bind
-                    -- -fwarn-missing-import-lists
 
 executable rss-markdown-proxy-server
   hs-source-dirs:      server
@@ -62,7 +65,6 @@ executable rss-markdown-proxy-server
                        -fwarn-incomplete-record-updates
                        -fwarn-monomorphism-restriction
                        -fwarn-unused-do-bind
-                    -- -fwarn-missing-import-lists
 
 executable rss-markdown-proxy
   hs-source-dirs:      cli
@@ -78,7 +80,6 @@ executable rss-markdown-proxy
                        -fwarn-incomplete-record-updates
                        -fwarn-monomorphism-restriction
                        -fwarn-unused-do-bind
-                    -- -fwarn-missing-import-lists
 
 test-suite rss-markdown-proxy-test
   type:                exitcode-stdio-1.0
@@ -99,8 +100,7 @@ source-repository head
   type:     git
   location: https://github.com/passy/rss-markdown-proxy
 
--- XXX: This is not actually optional at the moment, but hopefully will be soon.
 flag metrics
   description: Enable runtime statistics
-  default: True
+  default: False
   manual: True

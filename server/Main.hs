@@ -2,8 +2,8 @@
 
 module Main where
 
-import           Lib.Server               (Port (..), ServerOptions (..),
-                                           server)
+import           Lib.Server               (server)
+import           Lib.Types                (Port (..), ServerOptions (..))
 
 import           Data.Default             (def)
 import           Data.Version             (Version (), showVersion)
