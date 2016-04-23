@@ -1,7 +1,7 @@
-{-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE FlexibleInstances #-}
-{-# LANGUAGE TemplateHaskell   #-}
 {-# LANGUAGE CPP               #-}
+{-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE TemplateHaskell   #-}
 
 module Lib.Server
     ( server
@@ -12,19 +12,20 @@ module Lib.Server
     ) where
 
 
-import qualified Data.Text.Lazy          as T
-import qualified Web.Scotty              as S
+import qualified Data.Text.Lazy           as T
+import qualified Web.Scotty               as S
 
 import           Control.Lens
-import           Control.Monad.IO.Class  (liftIO)
-import           Data.Default            (Default (), def)
-import           Data.Hourglass.Types    (Seconds (), toSeconds)
-import           Data.TCache             (atomically)
-import           Data.TCache.Memoization (cachedByKeySTM)
+import           Control.Monad.IO.Class   (liftIO)
+import           Data.Default             (Default (), def)
+import           Data.Hourglass.Types     (Seconds (), toSeconds)
+import           Data.TCache              (atomically)
+import           Data.TCache.Memoization  (cachedByKeySTM)
 
-import           Lib                     (fetchFeed, transformRSS)
+import qualified Network.Wai.Metrics      as Metrics
+import           System.Remote.Monitoring (forkServer, serverMetricStore)
 
--- import System.Remote.Monitoring (serverMetricStore, forkServer)
+import           Lib                      (fetchFeed, transformRSS)
 
 -- | Cache expiration time in seconds.
 cacheTime :: Seconds
@@ -41,8 +42,8 @@ data Metrics
 
 -- | Command line options provided to start up the server.
 data ServerOptions = ServerOptions
-  { _url  :: String
-  , _port :: Port Server
+  { _url         :: String
+  , _port        :: Port Server
   , _metricsPort :: Port Metrics
   }
 
@@ -61,8 +62,12 @@ transformUrlCached url' =
   in atomically $ cachedByKeySTM url' seconds perform
 
 server :: ServerOptions -> IO ()
-server opts =
-  S.scotty (opts ^. port & unPort) .
+server opts = do
+  store <- serverMetricStore <$> forkServer "localhost" (opts ^. metricsPort & unPort)
+  waiMetrics <- Metrics.registerWaiMetrics store
+
+  S.scotty (opts ^. port & unPort) $ do
+    S.middleware (Metrics.metrics waiMetrics)
     S.get "/feed.rss" $ do
       res <- liftIO . transformUrlCached $ opts ^. url
       S.setHeader "Content-Type" "application/rss+xml;charset=utf-8"

@@ -33,6 +33,7 @@ library
                      , hourglass
   if flag(metrics)
     build-depends:     wai-middleware-metrics
+                     , ekg
     other-extensions:  CPP
     cpp-options:       -DWITH_METRICS
   default-language:    Haskell2010
@@ -40,7 +41,7 @@ library
                      , Arrows
                      , NoImplicitPrelude
                      , ExistentialQuantification
-  Ghc-options:         -Wall
+  ghc-options:         -Wall
                        -fwarn-tabs
                        -fwarn-incomplete-record-updates
                        -fwarn-monomorphism-restriction
@@ -50,7 +51,7 @@ library
 executable rss-markdown-proxy-server
   hs-source-dirs:      server
   main-is:             Main.hs
-  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N -with-rtsopts=-T
   build-depends:       base
                      , rss-markdown-proxy
                      , optparse-applicative
@@ -91,7 +92,7 @@ test-suite rss-markdown-proxy-test
                      , text
                      , filepath
                      , transformers
-  ghc-options:         -threaded -rtsopts -with-rtsopts="-N -T"
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
 
 source-repository head
