@@ -1,5 +1,5 @@
 rssprox:
-  image: passy/rss-markdown-proxy:v0.1.0.0
+  image: passy/rss-markdown-proxy:v0.2.0.0
   ports:
     - "3000:3000"
   restart: unless-stopped

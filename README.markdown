@@ -96,14 +96,23 @@ are (semi-)automatic builds available on
 *Run image*
 
 ```
-docker pull rss-markdown-proxy:v0.1.0.0
-docker run --rm -p 3000:3000 rss-markdown-proxy:v0.1.0.0 "https://feeds.soundcloud.com/users/soundcloud:users:189413584/sounds.rss"
+docker pull rss-markdown-proxy:v0.2.0.0
+docker run --rm -p 3000:3000 rss-markdown-proxy:v0.2.0.0 "https://feeds.soundcloud.com/users/soundcloud:users:189413584/sounds.rss"
 ```
 
 *Build a new image*
 
 ```
 docker build --build-arg version=$(git describe --tags --always) -t rss-markdown-proxy .
+```
+
+*Release an image*
+
+Check the version that's spat out above.
+
+```
+docker tag <image_id> passy/rss-markdown-proxy:<version_tag>
+docker push passy/rss-markdown-proxy:<version_tag>
 ```
 
 ## Example
