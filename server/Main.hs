@@ -1,14 +1,16 @@
+{-# LANGUAGE RankNTypes #-}
+
 module Main where
 
-import           Lib.Server               (Port (..), ServerOptions (..),
-                                           server)
+import           Lib.Server               (server)
+import           Lib.Types                (Port (..), ServerOptions (..))
 
 import           Data.Default             (def)
 import           Data.Version             (Version (), showVersion)
 import           Options.Applicative
 import           Paths_rss_markdown_proxy (version)
 
-readPort :: ReadM Port
+readPort :: forall a. ReadM (Port a)
 readPort = eitherReader $ \arg -> case reads arg of
   [(r, "")] -> return $ Port r
   _         -> Left $ "cannot parse port value `" <> arg <> "'"
@@ -27,7 +29,13 @@ serverParser ver =
          <> short 'p'
          <> value def
          <> showDefault
-         <> help "Port" )
+         <> help "HTTP proxy server port" )
+      <*> option readPort
+          ( long "metrics-port"
+         <> short 'm'
+         <> value def
+         <> showDefault
+         <> help "HTTP metrics server port" )
 
     versionInfo = infoOption ( "rss-markdown-proxy-server " ++ showVersion ver )
       ( short 'V'
