@@ -1,5 +1,5 @@
 name:                rss-markdown-proxy
-version:             0.1.0.0
+version:             0.2.0.0
 synopsis:            An RSS proxy rendering markdown descriptions
 description:         Please see README.md
 homepage:            http://github.com/passy/rss-markdown-proxy#readme
