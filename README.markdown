@@ -64,11 +64,17 @@ $ rss-markdown-proxy -u "https://feeds.soundcloud.com/users/soundcloud:users:189
 ## Metrics
 
 Like stats? So do I! If you compile with the `metrics` flag, you get a built-in
-metrics server. Only with `rss-markdown-proxy-server`, though, as it doesn't make a whole lot of sense for short-lived programs.
+metrics server. Only with `rss-markdown-proxy-server`, though, as it doesn't
+make a whole lot of sense for short-lived programs.
 
 ```
 $ stack build --flag=rss-markdown-proxy:metrics
 ```
+
+The metrics server runs on port 3001 by default but you can change it through
+the `--metrics-port` / `-m` flags. The server binds to localhost and you
+probably don't want to expose this directly to the internet. Either
+reverse-proxy it with some authentication or SSH tunnel to it.
 
 ## Security Considerations
 
