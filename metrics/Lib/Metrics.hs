@@ -11,4 +11,4 @@ getMetricsMiddleware :: Port Metrics -> IO Middleware
 getMetricsMiddleware port = do
   store <- serverMetricStore <$> forkServer "localhost" (unPort port)
   waiMetrics <- Metrics.registerWaiMetrics store
-  return (Metrics.metrics waiMetrics)
+  return $ Metrics.metrics waiMetrics
