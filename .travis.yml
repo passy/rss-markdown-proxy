@@ -1,30 +1,20 @@
-language: haskell
 sudo: false
-ghc:
-  - '7.8'
-env:
-  global:
-    - SNAPSHOT_VERSION: 'lts-4.0'
-    - GHC_VERSION: '7.10.2'
-    - STACK_RELEASE: 'https://github.com/commercialhaskell/stack/releases/download/v0.1.10.0/stack-0.1.10.0-linux-x86_64.tar.gz'
+language: c  # Choose a lightweight base image
 
-sudo: false
 cache:
   directories:
-  - $HOME/.stack/snapshots/x86_64-linux/$SNAPSHOT_VERSION/$GHC_VERSION/
+  - $HOME/.stack
+
+addons:
+  apt:
+    packages:
+    - libgmp3-dev
 
 before_install:
-  - ls $HOME/.stack/snapshots/x86_64-linux/$SNAPSHOT_VERSION/
-  - ls $HOME/.stack/snapshots/x86_64-linux/$SNAPSHOT_VERSION/$GHC_VERSION/
-  - mkdir -p $HOME/bin
-  - curl -L "$STACK_RELEASE" | tar -C "$HOME/bin" --strip=1 -xzf - stack-0.1.10.0-linux-x86_64/stack
-  - chmod +x $HOME/bin/stack
-
-install:
-  - ls $HOME/.stack/snapshots/x86_64-linux/$SNAPSHOT_VERSION/
-  - ls $HOME/.stack/snapshots/x86_64-linux/$SNAPSHOT_VERSION/$GHC_VERSION/
-  - stack setup
-  - stack test --only-snapshot
+- mkdir -p ~/.local/bin
+- export PATH=$HOME/.local/bin:$PATH
+- travis_retry curl -L https://www.stackage.org/stack/linux-x86_64 | tar xz --wildcards --strip-components=1 -C ~/.local/bin '*/stack'
 
 script:
-  - stack test
+- stack setup
+- stack --no-terminal test

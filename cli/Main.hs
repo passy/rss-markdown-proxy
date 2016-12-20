@@ -1,18 +1,18 @@
 {-# LANGUAGE ExistentialQuantification #-}
-{-# LANGUAGE OverloadedStrings         #-}
+{-# LANGUAGE OverloadedStrings #-}
 
 module Main where
 
-import qualified Data.Text.Lazy     as T
-import           Lib                (fetchFeed, transformRSS)
+import qualified Data.Text.Lazy as T
+import Lib (fetchFeed, transformRSS)
 
-import           Data.Version             (Version (), showVersion)
-import           Options.Applicative
-import           Paths_rss_markdown_proxy (version)
+import Data.Version (Version(), showVersion)
+import Options.Applicative
+import Paths_rss_markdown_proxy (version)
 
 data CliOptions = CliOptions
   { path :: Maybe FilePath
-  , url  :: Maybe String
+  , url :: Maybe String
   }
 
 cliParser :: Version -> ParserInfo CliOptions
