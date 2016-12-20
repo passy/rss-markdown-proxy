@@ -1,24 +1,22 @@
-{-# LANGUAGE CPP               #-}
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE TemplateHaskell   #-}
 
 module Lib.Server
-    ( server
-    ) where
+  ( server
+  ) where
 
-import qualified Data.Text.Lazy           as T
-import qualified Web.Scotty               as S
+import qualified Data.Text.Lazy as T
+import qualified Web.Scotty as S
 
-import           Control.Lens
-import           Control.Monad.IO.Class   (liftIO)
-import           Data.Hourglass.Types     (Seconds (), toSeconds)
-import           Data.TCache              (atomically)
-import           Data.TCache.Memoization  (cachedByKeySTM)
+import Control.Lens
+import Control.Monad.IO.Class (liftIO)
+import Data.Hourglass.Types (Seconds(), toSeconds)
+import Data.TCache (atomically)
+import Data.TCache.Memoization (cachedByKeySTM)
 
-import           Lib                      (fetchFeed, transformRSS)
-import           Lib.Types                (ServerOptions (), port, unPort, url, metricsPort)
-import qualified Lib.Metrics              as Metrics
+import Lib (fetchFeed, transformRSS)
+import Lib.Types (ServerOptions(), port, unPort, url, metricsPort)
+import qualified Lib.Metrics as Metrics
 
 -- | Cache expiration time in seconds.
 cacheTime :: Seconds

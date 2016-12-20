@@ -1,20 +1,20 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 module Lib
-    ( selectDescriptions
-    , fetchFeed
-    , transformRSS
-    ) where
+  ( selectDescriptions
+  , fetchFeed
+  , transformRSS
+  ) where
 
-import qualified Data.Text.Lazy                as T
-import qualified Data.Text.Lazy.Encoding       as TE
-import qualified Network.Wreq                  as W
+import qualified Data.Text.Lazy as T
+import qualified Data.Text.Lazy.Encoding as TE
+import qualified Network.Wreq as W
 
-import           Text.Blaze.Html.Renderer.Text (renderHtml)
-import           Text.Markdown                 (def, markdown)
+import Text.Blaze.Html.Renderer.Text (renderHtml)
+import Text.Markdown (def, markdown)
 
-import           Control.Lens                  hiding (deep)
-import           Text.XML.HXT.Core
+import Control.Lens hiding (deep)
+import Text.XML.HXT.Core
 
 itunesNs :: String
 itunesNs = "http://www.itunes.com/dtds/podcast-1.0.dtd"

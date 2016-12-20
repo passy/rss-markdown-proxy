@@ -1,4 +1,4 @@
-{-# LANGUAGE TemplateHaskell   #-}
+{-# LANGUAGE TemplateHaskell #-}
 {-# LANGUAGE FlexibleInstances #-}
 
 module Lib.Types
@@ -12,10 +12,11 @@ module Lib.Types
   , url
   ) where
 
-import           Control.Lens
-import           Data.Default             (Default (), def)
+import Control.Lens
+import Data.Default (Default(), def)
 
-newtype Port a = Port Int
+newtype Port a =
+  Port Int
   deriving (Read, Show)
 
 unPort :: Port a -> Int
