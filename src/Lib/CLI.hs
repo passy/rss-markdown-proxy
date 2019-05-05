@@ -1,5 +1,3 @@
-{-# LANGUAGE OverloadedStrings #-}
-
 module Lib.CLI
   ( cliMain
   ) where
